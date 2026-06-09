@@ -4,10 +4,12 @@ import base64
 import requests
 import json
 import re
+import uuid
 from urllib.parse import urlparse
 import datetime
 import jwt
 
+from django.core.cache import cache
 from django.core.files.storage import default_storage
 from django.conf import settings
 from django.core.validators import URLValidator
@@ -743,6 +745,41 @@ class TokenView(OAuth2ProviderTokenView):
         else:
             # All other grant types our parent can handle
             response = super(TokenView, self).post(request, *args, **kwargs)
+
+        # 2FA interception: if password login succeeded and user has TOTP enabled,
+        # revoke the issued token and return a short-lived partial token instead.
+        if grant_type == "password" and response.status_code == 200:
+            try:
+                response_data = json.loads(response.content)
+                access_token_value = response_data.get("access_token")
+                if access_token_value:
+                    token_obj = AccessToken.objects.select_related("user").get(
+                        token=access_token_value
+                    )
+                    user = token_obj.user
+                    if user.totp_enabled:
+                        token_obj.delete()
+                        partial = str(uuid.uuid4())
+                        cache.set(
+                            f"2fa_partial:{partial}",
+                            {
+                                "user_id": user.pk,
+                                "client_id": client_id or "public",
+                                "scope": request.POST.get(
+                                    "scope", "rw:profile rw:issuer rw:backpack"
+                                ),
+                            },
+                            timeout=300,
+                        )
+                        return HttpResponse(
+                            json.dumps(
+                                {"requires_2fa": True, "partial_token": partial}
+                            ),
+                            status=200,
+                            content_type="application/json",
+                        )
+            except (AccessToken.DoesNotExist, KeyError):
+                pass
 
         if oauth_app and not oauth_app.applicationinfo.issue_refresh_token:
             data = json.loads(response.content)
