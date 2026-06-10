@@ -179,7 +179,6 @@ class TwoFactorDisableView(APIView):
     def post(self, request, **kwargs):
         user = request.user
         password = request.data.get("password", "")
-        code = request.data.get("code", "")
 
         if not user.check_password(password):
             return Response(
@@ -190,19 +189,6 @@ class TwoFactorDisableView(APIView):
         if not user.totp_enabled:
             return Response(
                 {"error": "2FA ist für dieses Konto nicht aktiviert."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        totp_valid = pyotp.TOTP(user.totp_secret).verify(code)
-        if not totp_valid and user.backup_codes:
-            code_hash = hashlib.sha256(code.encode()).hexdigest()
-            hashed_codes = json.loads(user.backup_codes)
-            if code_hash in hashed_codes:
-                totp_valid = True
-
-        if not totp_valid:
-            return Response(
-                {"error": "Ungültiger Code. Bitte versuche es erneut."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
