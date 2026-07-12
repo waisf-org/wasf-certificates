@@ -2272,7 +2272,7 @@ class BadgeInstance(BaseAuditedModel, BaseVersionedEntity, BaseOpenBadgeObjectMo
             email_context = {
                 "name": name,
                 "badge_name": self.badgeclass.name,
-                "badge_category": categoryExtension["Category"],
+                "badge_category": categoryExtension["Category"] if categoryExtension else None,
                 "badge_id": self.entity_id,
                 "badge_description": self.badgeclass.description,
                 "badge_language": self.badgeclass.language,
@@ -2306,7 +2306,8 @@ class BadgeInstance(BaseAuditedModel, BaseVersionedEntity, BaseOpenBadgeObjectMo
         template_name = "issuer/email/notify_earner"
 
         if (
-            categoryExtension["Category"] == "learningpath"
+            categoryExtension is not None
+            and categoryExtension["Category"] == "learningpath"
             and microdegree_id is not None
         ):
             # if the recipient does not have an account no micro degree email is sent

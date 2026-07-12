@@ -812,7 +812,10 @@ class BadgePDFCreator:
         activate_language(badge_class.language)
 
         buffer = BytesIO()
-        competencies = badge_class.json["extensions:CompetencyExtension"]
+        # BadgeClasses created without a Competency extension (e.g. via the
+        # v1 API without the frontend's "Add Competency" step) have no such
+        # key at all — treat as "no competencies" rather than a hard failure.
+        competencies = badge_class.json.get("extensions:CompetencyExtension", [])
         criteria = badge_class.criteria
         try:
             name = get_name(badge_instance)
@@ -887,8 +890,13 @@ class BadgePDFCreator:
         Story = []
         Story.extend(first_page_content)
 
-        categoryExtension = extensions.get(name="extensions:CategoryExtension")
-        category = json_loads(categoryExtension.original_json)["Category"]
+        # BadgeClasses created without a Category extension (e.g. via the v1
+        # API without the frontend's category-selection step) have no such
+        # key at all — same class of gap as the CompetencyExtension fix
+        # above. Fall back to a non-learningpath category rather than a hard
+        # failure; the branch below only special-cases "learningpath".
+        categoryExtension = extensions.filter(name="extensions:CategoryExtension").first()
+        category = json_loads(categoryExtension.original_json)["Category"] if categoryExtension else None
 
         if category == "learningpath":
             lp = LearningPath.objects.filter(participationBadge=badge_class).first()
