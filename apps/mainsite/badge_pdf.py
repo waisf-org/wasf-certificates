@@ -50,6 +50,13 @@ font_path_rubik_italic = os.path.join(
     os.path.dirname(__file__), "static", "fonts", "Rubik-Italic.ttf"
 )
 
+# WASF branding: single source of truth for the certificate accent color.
+# Was previously hardcoded as "#492E98" (Open Educational Badges purple) at
+# every call site — kept the same value as a starting default so nothing
+# visually changes yet, but now changing WASF's brand color is a one-line
+# edit here instead of finding every scattered string literal.
+WASF_BRAND_COLOR = "#492E98"
+
 pdfmetrics.registerFont(TTFont("Rubik-Regular", font_path_rubik_regular))
 pdfmetrics.registerFont(TTFont("Rubik-Medium", font_path_rubik_medium))
 pdfmetrics.registerFont(TTFont("Rubik-Bold", font_path_rubik_bold))
@@ -107,7 +114,7 @@ class BadgePDFCreator:
             name="Recipient",
             fontSize=16,
             leading=19.2,  # 120%
-            textColor="#492E98",
+            textColor=WASF_BRAND_COLOR,
             fontName="Rubik-Bold",
             alignment=TA_CENTER,
         )
@@ -176,7 +183,7 @@ class BadgePDFCreator:
         title_style = ParagraphStyle(
             name="Title",
             fontSize=20,
-            textColor="#492E98",
+            textColor=WASF_BRAND_COLOR,
             fontName="Rubik-Bold",
             leading=line_height,
             alignment=TA_CENTER,
@@ -302,7 +309,7 @@ class BadgePDFCreator:
             content.drawOn(canvas, doc.leftMargin, 740 + (40 - content.drawHeight / 2))
             header_height += content.drawHeight
 
-        canvas.setStrokeColor("#492E98")
+        canvas.setStrokeColor(WASF_BRAND_COLOR)
         canvas.setLineWidth(1)
         canvas.line(doc.leftMargin + 100, 775, doc.leftMargin + doc.width, 775)
         header_height += 1
@@ -352,7 +359,7 @@ class BadgePDFCreator:
         qr_y = y + h - qr_top_padding - qr_size
 
         canvas.setFillColor(colors.white)
-        canvas.setStrokeColor(colors.HexColor("#492E98"))
+        canvas.setStrokeColor(colors.HexColor(WASF_BRAND_COLOR))
         canvas.setLineWidth(1)
         canvas.roundRect(
             qr_x - 2, qr_y - 2, qr_size + 4, qr_size + 4, 4, stroke=1, fill=1
@@ -379,10 +386,10 @@ class BadgePDFCreator:
             alignment=TA_CENTER,
         )
         content_html = (
-            f'<span fontName="Rubik-Bold">{_("CREATED VIA")} '
-            '<a href="https://openbadges.education" color="#1400FF" underline="true">'
-            "OPENBADGES.EDUCATION</a></span><br/>"
-            f'<span fontName="Rubik-Regular">{_("Use the QR code to retrieve the digital badge.")}</span>'
+            f'<span fontName="Rubik-Bold">{_("ISSUED BY")} '
+            '<a href="https://wasf.sport" color="#1400FF" underline="true">'
+            "WORLD AI SPORTS FEDERATION</a></span><br/>"
+            f'<span fontName="Rubik-Regular">{_("Use the QR code to verify this certificate.")}</span>'
         )
 
         p = Paragraph(content_html, footer_style)
@@ -419,7 +426,7 @@ class BadgePDFCreator:
                 name="Title",
                 fontSize=20,
                 fontName="Rubik-Medium",
-                textColor="#492E98",
+                textColor=WASF_BRAND_COLOR,
                 alignment=TA_LEFT,
                 textTransform="uppercase",
             )
@@ -482,7 +489,7 @@ class BadgePDFCreator:
                     45,
                     10,
                     text=competency,
-                    strokecolor="#492E98",
+                    strokecolor=WASF_BRAND_COLOR,
                     fillcolor="#F5F5F5",
                     studyload=studyload,
                     max_studyload=max_studyload,
@@ -506,7 +513,7 @@ class BadgePDFCreator:
                 name="Title",
                 fontSize=20,
                 fontName="Rubik-Medium",
-                textColor="#492E98",
+                textColor=WASF_BRAND_COLOR,
                 alignment=TA_LEFT,
                 textTransform="uppercase",
             )
@@ -625,7 +632,7 @@ class BadgePDFCreator:
             name="Title",
             fontSize=20,
             fontName="Rubik-Medium",
-            textColor="#492E98",
+            textColor=WASF_BRAND_COLOR,
             alignment=TA_LEFT,
             textTransform="uppercase",
         )
@@ -708,7 +715,7 @@ class BadgePDFCreator:
             name="EvidenceTitle",
             fontSize=20,
             fontName="Rubik-Medium",
-            textColor="#492E98",
+            textColor=WASF_BRAND_COLOR,
             alignment=TA_LEFT,
             textTransform="uppercase",
         )
@@ -1093,7 +1100,7 @@ class RoundedRectFlowable(Flowable):
                 thickness=0,
             )
 
-        self.canv.setFillColor("#492E98")
+        self.canv.setFillColor(WASF_BRAND_COLOR)
         self.canv.setFont("Rubik-Regular", 14)
         studyload_width = self.canv.stringWidth(self.studyload)
         self.canv.drawString(

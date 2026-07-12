@@ -874,7 +874,12 @@ def call_cms_api(request, path, params={}):
             data = response.json()
             cache.set(cache_key, data, 60)
         except Exception:
-            data = ""
+            # LOCAL DEV FIX: no external WordPress CMS is configured
+            # (CMS_API_BASE_URL is empty), so this always fails here. The
+            # upstream code fell back to "" which crashes callers like
+            # cms_api_menu_list that do `for i, menu in api_data.items()`.
+            # An empty dict is a safe, valid "no CMS content" response.
+            data = {}
     return JsonResponse(data, safe=False)
 
 

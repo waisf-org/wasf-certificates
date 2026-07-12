@@ -42,4 +42,5 @@ django.log
 
 venv/
 venv
+.venv/
 badgr_server_mediafiles*
