@@ -77,7 +77,7 @@ language-tags==0.4.3
 lti==0.9.5
 lxml==6.0.0
 markdown==3.10
-mock==5.1.0
+mock==5.2.0
 model-bakery==1.0.2
 mozilla-django-oidc==4.0.1
 mysqlclient==2.2.7
