@@ -1,12 +1,12 @@
-Herzlichen Glückwunsch{% if name %} {{ name }}{% endif %},
-du hast einen {% if badge_category == "learningpath" %}MICRO DEGREE{% else %}BADGE{% endif %}erhalten!
+Congratulations{% if name %} {{ name }}{% endif %},
+you've received a {% if badge_category == "learningpath" %}MICRO DEGREE{% else %}BADGE{% endif %}!
 
-Vergeben von: {{ issuer_name }}
+Issued by: {{ issuer_name }}
 {% if badge_category != "learningpath" %}
-Du hast erfolgreich an dem Lernangebot {{ badge_name }} teilgenommen.
+You have successfully participated in the educational offering {{ badge_name }}.
 {% endif %}
 {% if badge_competencies %}
-Dabei hast du folgende Kompetenzen gestärkt:
+By participating you have strengthened the following competencies:
 {% for item in badge_competencies %}
     {{ item.name }} - {{ item.studyLoad }}
 {% endfor %}
@@ -14,12 +14,12 @@ Dabei hast du folgende Kompetenzen gestärkt:
 {% if badge_category == "learningpath" %}
 {{ call_to_action_label }}: {{ activate_url }}
 
-Im Anhang dieser Mail findest du neben der Micro-Degree-Datei ein Badge-PDF, das deinen Lernerfolg ebenfalls ausweist.
+Attached to this email, next to the Micro Degree file, you'll find a Badge PDF documenting your learning outcomes as well.
 {% else %}
-Im Anhang dieser Mail findest du deine Badge-Datei und das zugehörige Badge-PDF zum Herunterladen.
+Attached to this email you'll find your badge file and the corresponding Badge PDF to download.
 
-Alle deine erhaltenen Badges kannst du auf Open Educational Badges
-in deinem Rucksack sammeln und mit anderen teilen.
-Lege dafür einfach kostenlos einen Account an:
+You can collect all your earned badges in your WASF Certificates
+backpack and share them with others.
+Just create a free account here:
 {{ activate_url }}
 {% endif %}

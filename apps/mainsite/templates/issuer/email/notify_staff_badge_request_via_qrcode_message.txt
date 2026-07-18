@@ -1,7 +1,7 @@
-QR-Code-Anfrage für deinen Badge
+QR code request for your badge
 
-Dein Badge {{ badgeclass }} wurde von {{ email }} per QR-Code angefragt.
+Your badge {{ badgeclass }} was requested by {{ email }} via QR code.
 
-Bitte bestätige die Anfrage auf Open Educational Badges über den folgenden Button.
+Please confirm the request on WASF Certificates using the link below.
 
-Anfrage bestätigen: {{ activate_url }}
+Confirm request: {{ activate_url }}

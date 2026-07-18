@@ -54,9 +54,26 @@ CACHES = {
 #
 # Email Configuration
 #
+# Reads SMTP credentials from the environment (e.g. a Hostinger mailbox for
+# waisf.org) rather than hardcoding them here — set EMAIL_HOST/EMAIL_HOST_USER/
+# EMAIL_HOST_PASSWORD as real env vars (or in an untracked .env loaded before
+# this file) on the production host. Falls back to the console backend (safe
+# default — prints emails to the server log instead of sending them) if
+# EMAIL_HOST isn't set, so an incomplete config fails safe rather than
+# silently trying to send through an unconfigured relay.
+#
 ###
-DEFAULT_FROM_EMAIL = ''  # e.g. "noreply@example.com"
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@waisf.org')
+if os.environ.get('EMAIL_HOST'):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.environ.get('EMAIL_HOST')
+    EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+    EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+    EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'False') == 'True'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 ###

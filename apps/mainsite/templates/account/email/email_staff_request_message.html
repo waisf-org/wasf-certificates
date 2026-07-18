@@ -5,17 +5,17 @@
 {% block main %}
     <mj-section background-color="#ffffff">
     <mj-column>
-    <mj-image src="{% static '/images/Logo-Oeb.png' %}" alt="Logo" href="https://openbadges.education" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
+    <mj-image src="{% static '/images/Logo-Wasf.png' %}" alt="WASF Logo" href="https://waisf.org" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
     <mj-text font-size="32px" font-weight="bold">
-    <span>Mitgliedsanfrage für deine Institution</span>
+    <span>Membership request for your institution</span>
     </mj-text>
-    <mj-text color="#492e98">
+    <mj-text color="#6b3ea5">
     <span style="font-weight: bold;">{{ user.first_name }} {{ user.last_name }}</span>
-    hat eine Mitgliedsanfrage für deine Institution
-    <span style="font-weight:bold;">{{ issuer.name }}</span> gestellt.
+    has requested to join your institution
+    <span style="font-weight:bold;">{{ issuer.name }}</span>.
     </mj-text>
-    <mj-text color="#492e98">
-    Du kannst die Anfrage über folgenden Button auf Open Educational Badges bestätigen:
+    <mj-text color="#6b3ea5">
+    You can confirm the request on WASF Certificates using the button below:
     </mj-text>
     </mj-column>
     </mj-section>

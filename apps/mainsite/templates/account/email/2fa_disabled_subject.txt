@@ -1,1 +1,1 @@
-2-Faktor-Authentifizierung deaktiviert
+Two-Factor Authentication disabled

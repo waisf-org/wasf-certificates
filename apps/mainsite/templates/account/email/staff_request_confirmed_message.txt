@@ -1,9 +1,9 @@
-Bestätigung deiner Mitgliedsanfrage
+Your membership request has been confirmed
 
-{{ issuer.name }} hat dich als Mitglied hinzugefügt.
-Du kannst nun im Namen der Institution Badges vergeben.
+{{ issuer.name }} has added you as a member.
+You can now issue badges on behalf of this institution.
 
-Viel Spaß auf OEB!
+Enjoy WASF Certificates!
 
 {{ call_to_action_label }}:
 {{ activate_url }}

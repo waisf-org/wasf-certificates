@@ -1,6 +1,6 @@
-Eine Institution wurde automatisch verifiziert!
+An institution was automatically verified!
 
-Hallo Admins,
-eine neue Institution "{{ issuer_name }}" wurde erstellt und automatisch verifiziert.
+Hello admins,
+a new institution "{{ issuer_name }}" was created and automatically verified.
 
-Zur Admin Übersicht: {{ HTTP_ORIGIN }}/staff/issuer/issuer/
+Go to Admin Overview: {{ HTTP_ORIGIN }}/staff/issuer/issuer/

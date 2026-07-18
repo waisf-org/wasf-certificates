@@ -1,6 +1,6 @@
-QR-Code-Anfragen für deinen Badge
+QR code requests for your badge
 
-Du hast {{ number_of_open_requests }} offene QR-Code-Anfrage(n) für deinen Badge {{ badge_name }}.
+You have {{ number_of_open_requests }} open QR code request(s) for your badge {{ badge_name }}.
 
-Bestätige die Anfragen auf Open Educational Badges über den folgenden Button:
+Confirm the requests on WASF Certificates using the link below:
 {{ activate_url }}

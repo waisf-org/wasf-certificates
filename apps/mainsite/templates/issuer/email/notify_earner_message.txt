@@ -28,7 +28,7 @@ You have successfully participated at the educational offering {{ badge_name }}
 {% else %}
 {% translate 'You can find the Badge file next to the Badge-PDF demonstrating your learning outcomes in this mails attachment.' %}
 
-{% translate 'Collect all your badges in your Open Educational Badges backpack and use them for applications. Just create your free account here:' %}
+{% translate 'Collect all your badges in your WASF Certificates backpack and use them for applications. Just create your free account here:' %}
 {{ activate_url }}
 {% endif %}
 

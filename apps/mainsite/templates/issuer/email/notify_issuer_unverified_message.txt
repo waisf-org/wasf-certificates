@@ -1,18 +1,18 @@
-Verifiziere deine Institution
+Verify your institution
 
-    Super, dass du deine Institution {{ issuer_name }} auf OEB angelegt hast!
+    Great that you've created your institution {{ issuer_name }} on WASF Certificates!
 
-    Leider konnten wir sie nicht automatisch verifizieren, da die verwendete E-Mail-Adresse nicht zur Domain der angegebenen Webseite passt.
+    Unfortunately we couldn't verify it automatically, because the email address used doesn't match the domain of the website provided.
 
-    So kannst du die Verifizierung abschließen:
+    Here's how you can complete verification:
 
-    • Füge die offizielle E-Mail-Adresse der Institution zu deinem Account hinzu oder
-    • antworte an support@openbadges.education mit deinem Namen,
-      einem Link zur Webseite deiner Organisation
-      sowie einer kurzen Bestätigung deiner Zugehörigkeit.
+    • Add the institution's official email address to your account, or
+    • reply to support@waisf.org with your name,
+      a link to your organization's website,
+      and a brief confirmation of your affiliation.
 
-    Bei Fragen helfen wir gerne weiter.
+    We're happy to help if you have questions.
 
-    Beste Grüße
+    Best regards,
 
-    dein OEB-Team
+    the WASF Team

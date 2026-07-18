@@ -8,7 +8,7 @@
         {% block main %}
             <mj-section>
             <mj-column>
-            <mj-image src="{% static '/images/Logo-Oeb.png' %}" alt="Logo" href="https://openbadges.education" padding-right="25px" width="150px" height="77px" align="right" />
+            <mj-image src="{% static '/images/Logo-Wasf.png' %}" alt="WASF Logo" href="https://waisf.org" padding-right="25px" width="150px" height="77px" align="right" />
             <mj-text font-size="24px">
             <span style="font-weight: bold">{% translate "Congratulations" %}</span>
             {% if name %}
@@ -70,7 +70,7 @@
                 <mj-section padding="0px 41px">
                 <mj-column background-color="#ffffff" padding="10px 25px">
                 {% for item in badge_competencies %}
-                    <mj-table padding="0" cellspacing="0" cellpadding="10" border="1px solid #492e98" padding-bottom="10px" font-size="14px">
+                    <mj-table padding="0" cellspacing="0" cellpadding="10" border="1px solid #6b3ea5" padding-bottom="10px" font-size="14px">
                     <tr style="background-color: #f5f6fa">
                         <td style="font-weight: 600">
                             {{ item.name }}
@@ -78,7 +78,7 @@
                                 <a href="{{ item.framework_identifier }}" style="text-decoration: none">[E]</a>
                             {% endif %}
                         </td>
-                        <td align="right" width="96" style="padding-left: 0; color: #492e98; width: 96px">{{ item.studyLoad }}</td>
+                        <td align="right" width="96" style="padding-left: 0; color: #6b3ea5; width: 96px">{{ item.studyLoad }}</td>
                         <td align="left" width="16" style="padding-left: 0">
                             <img src="{% static '/images/clock-icon.png' %}"
                                  alt="Clock"
@@ -98,7 +98,7 @@
             <mj-section text-align="left" padding-bottom="0px">
             {% if issuer_image_url %}
                 <mj-column vertical-align="middle" width="107px">
-                <mj-image src="{{ issuer_image_url }}" alt="Logo" href="{{ badge_instance_url }}" width="80px" height="80px" padding-right="0px" padding-bottom="0px" align="left" border="1px solid #ffffff" />
+                <mj-image src="{{ issuer_image_url }}" alt="WASF Logo" href="{{ badge_instance_url }}" width="80px" height="80px" padding-right="0px" padding-bottom="0px" align="left" border="1px solid #ffffff" />
                 </mj-column>
             {% endif %}
             <mj-column vertical-align="middle">
@@ -132,7 +132,7 @@
                 {% endblocktranslate %}
                 </mj-text>
                 {% if linked_in_share_url %}
-                    <mj-button padding="0 26px" background-color="#ffffff" color="#492e98" border="1px solid #492e98" width="100%" href="{{ linked_in_share_url }}">
+                    <mj-button padding="0 26px" background-color="#ffffff" color="#6b3ea5" border="1px solid #6b3ea5" width="100%" href="{{ linked_in_share_url }}">
                     <img src="{% static '/images/icon-linkedin@2x.png' %}" alt="" style="height: 28px; vertical-align: middle" />
                     <span style="vertical-align: middle">{% translate "Share badge on LinkedIn" %}</span></mj-button>
                     {% endif %}
@@ -143,7 +143,7 @@
                     <mj-text>
                     {% blocktranslate trimmed %}
                         Collect all your badges in your
-                        <a href="https://openbadges.education/recipient/badges?tab=badges" target="_blank" style="text-decoration: underline">Open Educational Badges</a>
+                        <a href="https://cert.waisf.org/recipient/badges?tab=badges" target="_blank" style="text-decoration: underline">WASF Certificates</a>
                         backpack and use them for applications. Just create your free
                         account here:
                     {% endblocktranslate %}

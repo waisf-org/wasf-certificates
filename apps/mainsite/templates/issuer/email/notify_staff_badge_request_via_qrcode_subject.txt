@@ -1,1 +1,1 @@
-Badge-Anfrage über QR-Code
+Badge request via QR code

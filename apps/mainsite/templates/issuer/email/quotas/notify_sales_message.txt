@@ -1,1 +1,1 @@
-{{name}} ({{ email }}) möchte für die Institution {{ issuer }} auf {{ quota }} upgraden.
+{{name}} ({{ email }}) would like to upgrade institution {{ issuer }} to {{ quota }}.

@@ -1,7 +1,7 @@
-Netzwerk-Einladung
+Network Invitation
 
-  Deine Institution {{ issuer.name }} wurde zum Netzwerk {{ network.name }} eingeladen.
+  Your institution {{ issuer.name }} has been invited to the network {{ network.name }}.
 
-  Bitte bestätige die Anfrage auf Open Educational Badges über den folgenden Button.
+  Please confirm the request on WASF Certificates using the link below.
 
   {{ call_to_action_label }}: {{ activate_url }}

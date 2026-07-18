@@ -1,7 +1,7 @@
-Herzlich Willkommen bei Open Educational Badges.
+Welcome to WASF Certificates.
 
-Bitte bestätige deinen Account, um Badges zu sammeln,
-zu erstellen und zu vergeben.
+Please confirm your account to collect, create,
+and issue badges.
 
-Meinen Account bestätigen:
+Confirm my account:
 {{ activate_url }}

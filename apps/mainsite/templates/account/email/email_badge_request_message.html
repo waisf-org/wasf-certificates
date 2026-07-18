@@ -5,15 +5,15 @@
 {% block main %}
     <mj-section background-color="#ffffff">
     <mj-column>
-    <mj-image src="{% static '/images/Logo-Oeb.png' %}" alt="Logo" href="https://openbadges.education" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
+    <mj-image src="{% static '/images/Logo-Wasf.png' %}" alt="WASF Logo" href="https://waisf.org" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
     <mj-text font-size="32px" font-weight="bold" padding-bottom="25px">
-    <span style="text-transform:capitalize;">QR-Code-Anfragen für deinen Badge</span>
+    <span style="text-transform:capitalize;">QR code requests for your badge</span>
     </mj-text>
-    <mj-text color="#492e98" padding-bottom="20px">
-    Du hast {{ number_of_open_requests }} offene QR-Code-Anfrage(n) für deinen Badge <b>{{ badge_name }}</b>.
+    <mj-text color="#6b3ea5" padding-bottom="20px">
+    You have {{ number_of_open_requests }} open QR code request(s) for your badge <b>{{ badge_name }}</b>.
     </mj-text>
     <mj-text>
-    Bestätige die Anfragen auf Open Educational Badges über den folgenden Button:
+    Confirm the requests on WASF Certificates using the button below:
     </mj-text>
     <mj-button href="{{ activate_url }}">
     {{ call_to_action_label }}

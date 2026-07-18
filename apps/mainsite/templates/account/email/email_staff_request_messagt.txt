@@ -1,7 +1,7 @@
-Mitgliedsanfrage für deine Institution
+Membership request for your institution
 
-{{ user.first_name }} {{ user.last_name }} hat eine Mitgliedsanfrage
-für deine Institution {{ issuer.name }} gestellt.
+{{ user.first_name }} {{ user.last_name }} has requested to join
+your institution {{ issuer.name }}.
 
-Du kannst die Anfrage über folgenden Button auf Open Educational Badges bestätigen:
+You can confirm the request on WASF Certificates using the link below:
 {{ activate_url }}

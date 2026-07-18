@@ -6,16 +6,15 @@
 {% block main %}
     <mj-section background-color="#ffffff">
     <mj-column>
-    <mj-image src="{% static '/images/Logo-Oeb.png' %}" alt="Logo" href="https://openbadges.education" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
-    <mj-text font-size="32px" color="#492e98" line-height="115%">
+    <mj-image src="{% static '/images/Logo-Wasf.png' %}" alt="WASF Logo" href="https://waisf.org" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
+    <mj-text font-size="32px" color="#6b3ea5" line-height="115%">
     {% blocktrans with site_name=site.name site_domain=site.domain %}
-      <span style="color: #323232">Herzlich Willkommen bei</span><br> <b>Open Educational Badges.</b>
+      <span style="color: #323232">Welcome to</span><br> <b>WASF Certificates.</b>
     {% endblocktrans %}
     </mj-text>
     <mj-text>
     {% blocktrans with site_name=site.name site_domain=site.domain %}
-      Bitte bestätige deinen Account, um Badges <br>
-      zu <b>sammeln</b>, zu <b>erstellen</b> und zu <b>vergeben.</b>
+      Please confirm your account to <b>collect</b>, <b>create</b>, and <b>issue</b> badges.
     {% endblocktrans %}
     </mj-text>
     </mj-column>
@@ -28,6 +27,6 @@
     <a href="{{ activate_url }}">{{ activate_url }}</a>
 {% endblock button_alt_link %}
 {% block button_text %}
-    Meinen Account bestätigen
+    Confirm my account
 {% endblock button_text %}
 {% endmjml %}

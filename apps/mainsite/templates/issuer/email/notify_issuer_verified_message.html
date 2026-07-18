@@ -5,24 +5,23 @@
 {% block main %}
     <mj-section background-color="#ffffff">
     <mj-column>
-    <mj-image src="{% static '/images/Logo-Oeb.png' %}" alt="Logo" href="https://openbadges.education" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
+    <mj-image src="{% static '/images/Logo-Wasf.png' %}" alt="WASF Logo" href="https://waisf.org" padding-left="25px" padding-bottom="60px" width="150px" height="77px" align="left" />
     <mj-text font-size="32px" font-weight="bold" padding-bottom="25px">
-    Deine Institution <span style="text-transform: uppercase;">{{ issuer_name }}</span> wurde verifiziert!
+    Your institution <span style="text-transform: uppercase;">{{ issuer_name }}</span> has been verified!
     </mj-text>
     <mj-text>
-    Du kannst direkt loslegen, <span style="font-weight: 600;">Badges zu erstellen und zu vergeben.</span> Hier zeigen wir dir, wie du in minutenschnelle deinen ersten Badge anlegst:
+    You can get started right away <span style="font-weight: 600;">creating and issuing badges.</span>
     </mj-text>
-    <mj-image width="236px" height="133px" src="{% static '/images/badgeCreateThumbnail.png' %}" alt="Youtube video zum Badge Erstellen" href="https://www.youtube.com/watch?v=hL8SBqpTAag" />
     </mj-column>
     </mj-section>
 {% endblock main %}
 {% block button_text %}
-    Zur OEB-Plattform
+    Go to WASF Certificates
 {% endblock button_text %}
 {% block button_url %}
-    https://openbadges.education/auth/login
+    https://cert.waisf.org/auth/login
 {% endblock button_url %}
 {% block button_alt_link %}
-    <a href="https://openbadges.education/auth/login">https://openbadges.education/auth/login</a>
+    <a href="https://cert.waisf.org/auth/login">https://cert.waisf.org/auth/login</a>
 {% endblock button_alt_link %}
 {% endmjml %}
