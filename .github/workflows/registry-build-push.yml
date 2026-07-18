@@ -27,17 +27,17 @@ jobs:
 
         steps:
             - name: ⬇️ Checkout repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Checkout dashboard plugin
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                 repository: ${{ secrets.DASHBOARD_URL }}
                 path: .tmp/dashboard
                 token: ${{ secrets.PLUGINS_ACCESS_TOKEN }}
 
             - name: Checkout pdfeditor plugin
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                 repository: ${{ secrets.PDFEDITOR_URL }}
                 path: .tmp/pdfeditor
