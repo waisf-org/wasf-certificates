@@ -7,11 +7,13 @@ import io
 import base64
 import datetime
 import hashlib
+import ipaddress
 import json
 import puremagic
 import math
 import re
 import requests
+import socket
 import urllib.request
 import urllib.parse
 import urllib.error
@@ -21,6 +23,7 @@ import uuid
 from django.apps import apps
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import SuspiciousOperation
 from django.core.files.storage import DefaultStorage
 from rest_framework.exceptions import UnsupportedMediaType
 from django.urls import get_callable
@@ -183,6 +186,29 @@ def fit_image_to_height(img, aspect_ratio, height=600):
     return new_img
 
 
+def _raise_if_unsafe_remote_url(url):
+    """
+    SSRF guard for server-side fetches of caller-supplied URLs (badge/evidence
+    images, OAuth client logo_uri): only allow http(s), and reject any hostname
+    that resolves to a loopback, private, link-local (covers the
+    169.254.169.254 cloud metadata address), or otherwise reserved address.
+    """
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        raise SuspiciousOperation("Unsupported URL scheme for remote fetch: {}".format(parsed.scheme))
+    hostname = parsed.hostname
+    if not hostname:
+        raise SuspiciousOperation("Remote fetch URL has no hostname")
+    try:
+        addrinfos = socket.getaddrinfo(hostname, None)
+    except socket.gaierror:
+        raise SuspiciousOperation("Could not resolve remote fetch hostname: {}".format(hostname))
+    for family, _, _, _, sockaddr in addrinfos:
+        ip = ipaddress.ip_address(sockaddr[0])
+        if ip.is_loopback or ip.is_private or ip.is_link_local or ip.is_reserved or ip.is_multicast or ip.is_unspecified:
+            raise SuspiciousOperation("Remote fetch URL resolves to a disallowed address: {}".format(ip))
+
+
 def fetch_remote_file_to_storage(
     remote_url,
     upload_to="",
@@ -218,6 +244,7 @@ def fetch_remote_file_to_storage(
     store = DefaultStorage()
 
     if magic_strings is None:
+        _raise_if_unsafe_remote_url(remote_url)
         r = requests.get(remote_url, stream=True)
         if r.status_code == 200:
             magic_strings = puremagic.magic_string(r.content)
