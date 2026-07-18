@@ -138,7 +138,7 @@ svglib==1.5.1
 tinycss==0.4
 tinycss2==1.4.0
 tomli==2.2.1
-tox==4.28.0
+tox==4.57.0
 tox-uv==1.26.2
 typing-extensions==4.14.1
 tzdata==2025.2
