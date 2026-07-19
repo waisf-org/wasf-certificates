@@ -57,9 +57,9 @@ services:
       - ./my.cnf:/etc/mysql/conf.d/mysql.cnf
 
     environment:
-      - "MYSQL_PASSWORD=password"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
       - "MYSQL_HOST=db"
-      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
       - TZ=Europe/Berlin
     ulimits:
       # Needs to be set e.g. on Fedora, Arch, etc.
@@ -108,9 +108,9 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - "MYSQL_PASSWORD=password"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
       - "MYSQL_HOST=db"
-      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
       - TZ=Europe/Berlin
     networks:
       - badgr

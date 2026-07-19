@@ -44,3 +44,7 @@ venv/
 venv
 .venv/
 badgr_server_mediafiles*
+
+# Real secrets for docker-compose.prod.yml's ${MYSQL_PASSWORD}/${MYSQL_ROOT_PASSWORD}
+# variable substitution — must never be committed. See .env.example.
+.env
