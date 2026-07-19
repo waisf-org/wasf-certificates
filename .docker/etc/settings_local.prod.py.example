@@ -94,8 +94,14 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 # Application Options Configuration
 #
 ###
-HTTP_ORIGIN = 'http://localhost:8080'
-ALLOWED_HOSTS = ['*']
+HTTP_ORIGIN = 'https://cert.waisf.org'
+# SECURITY WARNING: '*' accepts any Host header and must NEVER be used in a
+# real deployment (Host header injection: cache poisoning, password-reset
+# link poisoning, etc). This example deliberately ships a non-working
+# placeholder instead of '*' so a copy-paste deploy fails loudly instead of
+# silently running wide open — replace with your real domain(s), e.g.
+# ALLOWED_HOSTS = ['cert.waisf.org'].
+ALLOWED_HOSTS = ['REPLACE_WITH_YOUR_REAL_DOMAIN']
 STATIC_URL = HTTP_ORIGIN + '/static/'
 
 CSRF_COOKIE_DOMAIN = ''
