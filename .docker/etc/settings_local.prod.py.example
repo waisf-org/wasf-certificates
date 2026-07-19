@@ -94,18 +94,26 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 # Application Options Configuration
 #
 ###
-HTTP_ORIGIN = 'https://cert.waisf.org'
+# This is where the Django backend itself is reachable — a separate
+# subdomain from the Angular UI's own cert.waisf.org (both want to own the
+# exact same /public/assertions/:slug path, which can't cleanly coexist on
+# one origin). Django's own content-negotiation redirect (BadgrApp.
+# public_pages_redirect) sends browsers over to cert.waisf.org.
+HTTP_ORIGIN = 'https://api.cert.waisf.org'
 # SECURITY WARNING: '*' accepts any Host header and must NEVER be used in a
 # real deployment (Host header injection: cache poisoning, password-reset
 # link poisoning, etc). This example deliberately ships a non-working
 # placeholder instead of '*' so a copy-paste deploy fails loudly instead of
 # silently running wide open — replace with your real domain(s), e.g.
-# ALLOWED_HOSTS = ['cert.waisf.org'].
+# ALLOWED_HOSTS = ['api.cert.waisf.org'].
 ALLOWED_HOSTS = ['REPLACE_WITH_YOUR_REAL_DOMAIN']
 STATIC_URL = HTTP_ORIGIN + '/static/'
 
+# The Angular UI lives on a different origin (cert.waisf.org) than this API
+# (api.cert.waisf.org) in production, so its browser XHR calls need CORS.
+CORS_ALLOWED_ORIGINS = ['https://cert.waisf.org']
 CSRF_COOKIE_DOMAIN = ''
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = ['https://cert.waisf.org']
 
 
 # Optionally restrict issuer creation to accounts that have the 'issuer.add_issuer' permission
