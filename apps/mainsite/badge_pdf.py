@@ -387,7 +387,7 @@ class BadgePDFCreator:
         )
         content_html = (
             f'<span fontName="Rubik-Bold">{_("ISSUED BY")} '
-            '<a href="https://wasf.sport" color="#1400FF" underline="true">'
+            '<a href="https://waisf.org" color="#1400FF" underline="true">'
             "WORLD AI SPORTS FEDERATION</a></span><br/>"
             f'<span fontName="Rubik-Regular">{_("Use the QR code to verify this certificate.")}</span>'
         )

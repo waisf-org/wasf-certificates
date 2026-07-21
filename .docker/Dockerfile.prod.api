@@ -82,14 +82,17 @@ RUN npm install -g mjml@${MJML_VERSION}
 # Add timestamp
 RUN date +"%d.%m.%y %T" > timestamp && chown python:python timestamp
 
-USER 999
+# Create necessary log files as root (before dropping privileges), then
+# hand ownership to the runtime user so it can still write to them later.
+RUN touch /var/log/cron_cleartokens.log /var/log/cron_qr_badgerequests.log /var/log/cron_clear_altcha.log \
+    && chmod 644 /var/log/cron_cleartokens.log /var/log/cron_qr_badgerequests.log /var/log/cron_clear_altcha.log \
+    && chown 999:999 /var/log/cron_cleartokens.log /var/log/cron_qr_badgerequests.log /var/log/cron_clear_altcha.log
 
-# Create necessary log files as user
-RUN touch /var/log/cron_cleartokens.log && chmod 644 /var/log/cron_cleartokens.log
-RUN touch /var/log/cron_qr_badgerequests.log && chmod 644 /var/log/cron_qr_badgerequests.log
-RUN touch /var/log/cron_clear_altcha.log && chmod 644 /var/log/cron_clear_altcha.log
-RUN touch /var/log/cron_clear_iframe_urls.log && chmod 644 /var/log/cron_clear_iframe_urls.log
-RUN touch /var/log/cron_clean_aiskill_requests.log && chmod 644 /var/log/cron_clean_aiskill_requests.log
+RUN touch /var/log/cron_clear_iframe_urls.log /var/log/cron_clean_aiskill_requests.log \
+    && chmod 644 /var/log/cron_clear_iframe_urls.log /var/log/cron_clean_aiskill_requests.log \
+    && chown 999:999 /var/log/cron_clear_iframe_urls.log /var/log/cron_clean_aiskill_requests.log
+
+USER 999
 
 ENV PATH="/badgr_server/venv/bin:$PATH"
 ENTRYPOINT ["./entrypoint.sh"]
