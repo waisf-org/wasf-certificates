@@ -726,8 +726,11 @@ def public_assertion_pdf(request, *args, **kwargs):
         return JsonResponse({"error": "Badgeclass not found"}, status=404)
 
     pdf_creator = BadgePDFCreator()
+    # See apps/backpack/views.py::pdf for why this must be settings.HTTP_ORIGIN,
+    # not request.META["HTTP_ORIGIN"] (the Origin: header, absent on a plain
+    # GET — which produced a QR code encoding "None/public/assertions/<slug>").
     pdf_content = pdf_creator.generate_pdf(
-        badgeinstance, badgeclass, origin=request.META.get("HTTP_ORIGIN")
+        badgeinstance, badgeclass, origin=settings.HTTP_ORIGIN
     )
 
     return HttpResponse(pdf_content, content_type="application/pdf")
