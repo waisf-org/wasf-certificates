@@ -100,6 +100,12 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 # one origin). Django's own content-negotiation redirect (BadgrApp.
 # public_pages_redirect) sends browsers over to cert.waisf.org.
 HTTP_ORIGIN = 'https://api.cert.waisf.org'
+# QR codes / public verification links on badge PDFs must point at the
+# Angular UI's own domain, not this API's — set this explicitly whenever
+# HTTP_ORIGIN above is the API domain in a split-domain deployment like
+# this one. Left equal to HTTP_ORIGIN, badge QR codes resolve to the API
+# domain instead of the public verification page a human should land on.
+PUBLIC_CERT_ORIGIN = 'https://cert.waisf.org'
 # SECURITY WARNING: '*' accepts any Host header and must NEVER be used in a
 # real deployment (Host header injection: cache poisoning, password-reset
 # link poisoning, etc). This example deliberately ships a non-working

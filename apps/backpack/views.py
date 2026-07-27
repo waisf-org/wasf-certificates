@@ -82,10 +82,10 @@ def pdf(request, *args, **kwargs):
     # (someone opening this PDF link directly, or a QR scanner hitting it).
     # For that (the normal case for this endpoint) it's simply absent, so
     # the QR code embedded in the PDF encoded the literal string
-    # "None/public/assertions/<slug>" — not a URL at all. settings.HTTP_ORIGIN
+    # "None/public/assertions/<slug>" — not a URL at all. settings.PUBLIC_CERT_ORIGIN
     # is the actual configured public site origin and is always present.
     pdf_content = pdf_creator.generate_pdf(
-        badgeinstance, badgeclass, origin=settings.HTTP_ORIGIN
+        badgeinstance, badgeclass, origin=settings.PUBLIC_CERT_ORIGIN
     )
     return HttpResponse(pdf_content, content_type="application/pdf")
 
@@ -123,9 +123,9 @@ def collectionPdf(request, *args, **kwargs):
         raise Http404
 
     pdf_creator = CollectionPDFCreator()
-    # Same fix as pdf() above — settings.HTTP_ORIGIN, not the Origin: header.
+    # Same fix as pdf() above — settings.PUBLIC_CERT_ORIGIN, not the Origin: header.
     pdf_content = pdf_creator.generate_pdf(
-        collection, origin=settings.HTTP_ORIGIN
+        collection, origin=settings.PUBLIC_CERT_ORIGIN
     )
     return HttpResponse(pdf_content, content_type="application/pdf")
 

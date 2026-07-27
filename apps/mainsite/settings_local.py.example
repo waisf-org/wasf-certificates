@@ -118,6 +118,13 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 HTTP_ORIGIN = 'http://localhost:8000'
 
+# Where QR codes / public verification links on badge PDFs should point.
+# Only needs to differ from HTTP_ORIGIN in a split-domain deployment (a
+# separate public-facing UI on its own domain, e.g. api.cert.example.org
+# serving this API vs. cert.example.org serving the public Angular UI) —
+# leave it as-is (equal to HTTP_ORIGIN) for a single-domain setup.
+PUBLIC_CERT_ORIGIN = HTTP_ORIGIN
+
 # Optionally restrict issuer creation to accounts that have the 'issuer.add_issuer' permission
 BADGR_APPROVED_ISSUERS_ONLY = False
 

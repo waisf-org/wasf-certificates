@@ -132,6 +132,17 @@ TEMPLATES = [
 
 HTTP_ORIGIN = "http://localhost:8000"
 
+# The origin a human should be sent to when viewing a badge/certificate
+# publicly (QR codes, "verify this certificate" links). Distinct from
+# HTTP_ORIGIN, which this API server uses for itself — static files, media/
+# logo URLs, OAuth2 endpoints, Django admin email links, etc. — because a
+# split-domain deployment (e.g. api.cert.waisf.org serving the API vs.
+# cert.waisf.org serving the separate Angular public UI) needs those two
+# to point at different places. Defaults to HTTP_ORIGIN so a single-domain
+# deployment (the common case — local dev, anything without a separate
+# public frontend) doesn't need to set anything extra.
+PUBLIC_CERT_ORIGIN = HTTP_ORIGIN
+
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
