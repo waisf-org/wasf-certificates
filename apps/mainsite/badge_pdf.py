@@ -722,8 +722,8 @@ class BadgePDFCreator:
 
         narrative_style = ParagraphStyle(
             name="Narrative",
-            fontSize=16,
-            leading=18,
+            fontSize=11,
+            leading=15,
             textColor="#323232",
             alignment=TA_LEFT,
         )
@@ -749,8 +749,12 @@ class BadgePDFCreator:
         ]
         if narrative or narratives:
             narrative_text = narratives[0] if narratives else narrative
-            line_char_count = 79
-            line_height = 18
+            # Estimates for reserved-space/pagination math only (not the actual
+            # render, which reportlab wraps correctly regardless) — kept in
+            # proportion to narrative_style's fontSize/leading above so a
+            # smaller font doesn't reserve more vertical space than it needs.
+            line_char_count = 115
+            line_height = narrative_style.leading
             num_lines = math.ceil(len(narrative_text) / line_char_count)
             narrative_height = num_lines * line_height + 15
             space_needed += narrative_height
