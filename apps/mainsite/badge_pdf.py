@@ -57,10 +57,45 @@ font_path_rubik_italic = os.path.join(
 # edit here instead of finding every scattered string literal.
 WASF_BRAND_COLOR = "#492E98"
 
-pdfmetrics.registerFont(TTFont("Rubik-Regular", font_path_rubik_regular))
-pdfmetrics.registerFont(TTFont("Rubik-Medium", font_path_rubik_medium))
-pdfmetrics.registerFont(TTFont("Rubik-Bold", font_path_rubik_bold))
-pdfmetrics.registerFont(TTFont("Rubik-Italic", font_path_rubik_italic))
+# 2026-08-22: Rubik has no CJK glyphs — any Chinese recipient name, event
+# name (in the evidence narrative), badge title, description, or criteria
+# text rendered as garbled tofu boxes on the actual certificate PDF
+# (confirmed against a real issued badge instance). Every one of those
+# fields flows in as user/staff-entered data from wasf-website, so a Latin-
+# only font here is a recurring failure mode, not a one-off.
+#
+# Fix: point the *same* "Rubik-Regular/Medium/Bold/Italic" registered names
+# at Noto Sans SC instead — a font with full Latin coverage as well as CJK,
+# so every existing call site in this file (fontName="Rubik-Bold", etc.)
+# keeps working unchanged and now renders Chinese correctly too, without
+# hunting down each call site individually. Kept the Rubik-* name strings
+# (rather than renaming everywhere) specifically to keep this a font-file
+# swap, not a find-and-replace across ~20 call sites.
+#
+# Noto Sans SC ships only as a single variable-weight file (see
+# https://github.com/google/fonts/tree/main/ofl/notosanssc) with no static
+# cuts, and ReportLab's TTFont doesn't support variable-font axis selection
+# (it would render at the file's default instance, which for this font is
+# the Thin/100 end of the weight axis, not a usable body-text weight). The
+# three files below are pre-instanced static weights (wght=400/500/700),
+# generated once with `fonttools varLib.instancer` and committed as plain
+# static TTFs — no fonttools dependency needed at runtime, same as the
+# Rubik files. There's no separate italic cut (CJK typography doesn't
+# really use italics); Italic reuses the Regular weight upright.
+font_path_noto_regular = os.path.join(
+    os.path.dirname(__file__), "static", "fonts", "NotoSansSC-Static-Regular.ttf"
+)
+font_path_noto_medium = os.path.join(
+    os.path.dirname(__file__), "static", "fonts", "NotoSansSC-Static-Medium.ttf"
+)
+font_path_noto_bold = os.path.join(
+    os.path.dirname(__file__), "static", "fonts", "NotoSansSC-Static-Bold.ttf"
+)
+
+pdfmetrics.registerFont(TTFont("Rubik-Regular", font_path_noto_regular))
+pdfmetrics.registerFont(TTFont("Rubik-Medium", font_path_noto_medium))
+pdfmetrics.registerFont(TTFont("Rubik-Bold", font_path_noto_bold))
+pdfmetrics.registerFont(TTFont("Rubik-Italic", font_path_noto_regular))
 
 
 def get_leaf_badges(lp, lp_map=None, visited=None):
@@ -129,6 +164,7 @@ class BadgePDFCreator:
             fontSize=14,
             alignment=TA_CENTER,
             leading=18.2,  # 130%
+            fontName="Rubik-Regular",
         )
 
         if (
@@ -436,6 +472,7 @@ class BadgePDFCreator:
                 leading=20,
                 textColor="#323232",
                 alignment=TA_LEFT,
+                fontName="Rubik-Regular",
             )
 
             Story.append(Paragraph(_("<strong>Competencies</strong>"), title_style))
@@ -523,6 +560,7 @@ class BadgePDFCreator:
                 leading=20,
                 textColor="#323232",
                 alignment=TA_LEFT,
+                fontName="Rubik-Regular",
             )
 
             Story.append(Paragraph("Badges", title_style))
@@ -574,6 +612,7 @@ class BadgePDFCreator:
                     leading=16.8,
                     textColor="#323232",
                     alignment=TA_LEFT,
+                    fontName="Rubik-Regular",
                 )
 
                 badge_title = Paragraph(
@@ -645,7 +684,8 @@ class BadgePDFCreator:
         self.used_space += 35
 
         name_style = ParagraphStyle(
-            name="Name", fontSize=16, leading=18, textColor="#323232", alignment=TA_LEFT
+            name="Name", fontSize=16, leading=18, textColor="#323232", alignment=TA_LEFT,
+            fontName="Rubik-Regular",
         )
 
         description_style = ParagraphStyle(
@@ -726,6 +766,7 @@ class BadgePDFCreator:
             leading=15,
             textColor="#323232",
             alignment=TA_LEFT,
+            fontName="Rubik-Regular",
         )
 
         linknote_style = ParagraphStyle(
@@ -734,6 +775,7 @@ class BadgePDFCreator:
             leading=17,
             textColor="#323232",
             alignment=TA_LEFT,
+            fontName="Rubik-Regular",
         )
 
         space_needed = 0
