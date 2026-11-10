@@ -206,6 +206,10 @@ class BadgePDFCreator:
             "place_and_date_part": place_and_date_part,
             "duration_part": studyload_text,
         }
+        # With no study load, the empty %(duration_part)s left a stray space
+        # before the colon ("on 10.11.2026 :"). Fixed here rather than in the
+        # msgid so existing translations keep matching.
+        text = text.replace(" :", ":")
 
         p = Paragraph(text, text_style)
         __, h = p.wrap(document_width, 6 * text_style.leading)
