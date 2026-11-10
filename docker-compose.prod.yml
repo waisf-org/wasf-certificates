@@ -16,6 +16,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile.prod.api
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_started
@@ -41,6 +42,7 @@ services:
   # this container runs memcached
   memcached:
     image: "memcached:1.6.39-alpine"
+    restart: unless-stopped
     expose:
       - "11211"
     networks:
@@ -52,6 +54,7 @@ services:
   # this container runs mysql (database)
   db:
     image: mysql:8.0.36
+    restart: unless-stopped
     volumes:
       - badgr_server_prod_db:/var/lib/mysql:rw
       - ./.docker/etc/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -77,6 +80,7 @@ services:
   # this container runs nginx (webserver) and uses the uwsgi app.sock file from prod_api via a volume
   nginx:
     image: nginx:1.26.2
+    restart: unless-stopped
     group_add:
       - "999"
     volumes:
