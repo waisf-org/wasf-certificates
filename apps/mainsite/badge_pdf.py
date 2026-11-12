@@ -57,6 +57,11 @@ font_path_rubik_italic = os.path.join(
 # edit here instead of finding every scattered string literal.
 WASF_BRAND_COLOR = "#492E98"
 
+# Public lookup page on the WASF website (wasf_certificates.views.verify),
+# where the certificate number printed in the page-1 footer can be typed in.
+WASF_VERIFY_URL = "https://waisf.org/verify/"
+WASF_VERIFY_URL_LABEL = "waisf.org/verify"
+
 # 2026-08-22: Rubik has no CJK glyphs — any Chinese recipient name, event
 # name (in the evidence narrative), badge title, description, or criteria
 # text rendered as garbled tofu boxes on the actual certificate PDF
@@ -375,10 +380,15 @@ class BadgePDFCreator:
 
         canvas.restoreState()
 
-    def draw_first_page_footer(self, canvas, doc, qr_reader=None):
+    def draw_first_page_footer(self, canvas, doc, qr_reader=None, certificate_number=None):
         """
         Draws the fixed footer block on page 1.
         Footer is reserved by shrinking the first-page frame.
+
+        `certificate_number` (the assertion entity_id, stored on the WASF
+        website as WasfCertificate.certificate_number) is printed as a small
+        grey line under the QR caption so holders can read their number and
+        type it into waisf.org/verify without scanning the QR code.
         """
         footer_height = 100
         x = 0
@@ -392,8 +402,10 @@ class BadgePDFCreator:
         canvas.rect(x, y, w, h, stroke=0, fill=1)
 
         qr_size = 50
-        qr_top_padding = 8
-        qr_gap_to_text = 8
+        # Tightened from 8/8 to make room for the certificate-number line
+        # without growing the footer (which would shrink the page-1 frame).
+        qr_top_padding = 6
+        qr_gap_to_text = 6
 
         qr_x = x + (w - qr_size) / 2
         qr_y = y + h - qr_top_padding - qr_size
@@ -434,16 +446,45 @@ class BadgePDFCreator:
 
         p = Paragraph(content_html, footer_style)
         text_w = w - 40
-        text_h = 32
-        p.wrapOn(canvas, text_w, text_h)
+        text_h = p.wrapOn(canvas, text_w, 32)[1]
+        text_y_bottom = text_y_top - text_h
 
-        p.drawOn(canvas, x + (w - text_w) / 2, text_y_top - text_h)
+        p.drawOn(canvas, x + (w - text_w) / 2, text_y_bottom)
+
+        if certificate_number:
+            number_font_size = 8
+            number_line = (
+                f'{_("Certificate No.")} {certificate_number}'
+                f"  ·  {_('Verify at')} {WASF_VERIFY_URL_LABEL}"
+            )
+            baseline = text_y_bottom - number_font_size - 1
+            canvas.setFont("Rubik-Regular", number_font_size)
+            canvas.setFillColor(colors.HexColor("#777777"))
+            canvas.drawCentredString(x + w / 2, baseline, number_line)
+
+            # Make the whole line a clickable link to the verify page,
+            # prefilled with this certificate's number.
+            line_w = canvas.stringWidth(number_line, "Rubik-Regular", number_font_size)
+            canvas.linkURL(
+                f"{WASF_VERIFY_URL}?number={certificate_number}",
+                (
+                    x + (w - line_w) / 2,
+                    baseline - 2,
+                    x + (w + line_w) / 2,
+                    baseline + number_font_size,
+                ),
+                relative=0,
+            )
 
         canvas.restoreState()
 
-    def first_page_decor(self, canvas, doc, content, instituteName, qr_reader=None):
+    def first_page_decor(
+        self, canvas, doc, content, instituteName, qr_reader=None, certificate_number=None
+    ):
         self.header(canvas, doc, content=content, instituteName=instituteName)
-        self.draw_first_page_footer(canvas, doc, qr_reader=qr_reader)
+        self.draw_first_page_footer(
+            canvas, doc, qr_reader=qr_reader, certificate_number=certificate_number
+        )
 
     def add_competencies(self, Story, competencies, name, badge_name):
         num_competencies = len(competencies)
@@ -1011,6 +1052,7 @@ class BadgePDFCreator:
                 content=imageContent,
                 instituteName=badge_instance.issuer.name,
                 qr_reader=qr_reader,
+                certificate_number=badge_instance.entity_id,
             ),
             autoNextPageTemplate="later_pages",
         )
