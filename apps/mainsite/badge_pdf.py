@@ -152,23 +152,23 @@ class BadgePDFCreator:
         document_width, document_height = A4
         recipient_style = ParagraphStyle(
             name="Recipient",
-            fontSize=16,
-            leading=19.2,  # 120%
+            fontSize=15,
+            leading=18,  # 120%
             textColor=WASF_BRAND_COLOR,
-            fontName="Rubik-Bold",
+            fontName="Rubik-Medium",
             alignment=TA_CENTER,
         )
 
         recipient_name = f"<strong>{name}</strong>"
         first_page_content.append(Paragraph(recipient_name, recipient_style))
         first_page_content.append(Spacer(1, 8))
-        self.used_space += 8 + 19.2  # spacer and paragraph
+        self.used_space += 8 + 18  # spacer and paragraph
 
         text_style = ParagraphStyle(
             name="Text_Style",
-            fontSize=14,
+            fontSize=11,
             alignment=TA_CENTER,
-            leading=18.2,  # 130%
+            leading=15,  # ~135%
             fontName="Rubik-Regular",
         )
 
@@ -224,12 +224,12 @@ class BadgePDFCreator:
 
     def add_title(self, first_page_content, badge_class_name):
         document_width, document_height = A4
-        line_height = 30
+        line_height = 21
         title_style = ParagraphStyle(
             name="Title",
-            fontSize=20,
+            fontSize=15,
             textColor=WASF_BRAND_COLOR,
-            fontName="Rubik-Bold",
+            fontName="Rubik-Medium",
             leading=line_height,
             alignment=TA_CENTER,
         )
@@ -329,16 +329,16 @@ class BadgePDFCreator:
     def add_description(self, first_page_content, description):
         description_style = ParagraphStyle(
             name="Description",
-            fontSize=12,
+            fontSize=10,
             fontName="Rubik-Regular",
-            leading=16.5,
+            leading=14,
             alignment=TA_CENTER,
             leftIndent=20,
             rightIndent=20,
         )
         first_page_content.append(Paragraph(description, description_style))
-        line_char_count = 79
-        line_height = 16.5
+        line_char_count = 95
+        line_height = 14
         num_lines = math.ceil(len(description) / line_char_count)
         self.used_space += num_lines * line_height
 
@@ -798,7 +798,7 @@ class BadgePDFCreator:
 
         title_style = ParagraphStyle(
             name="EvidenceTitle",
-            fontSize=20,
+            fontSize=10.5,
             fontName="Rubik-Medium",
             textColor=WASF_BRAND_COLOR,
             alignment=TA_LEFT,
@@ -807,8 +807,8 @@ class BadgePDFCreator:
 
         narrative_style = ParagraphStyle(
             name="Narrative",
-            fontSize=11,
-            leading=15,
+            fontSize=9.5,
+            leading=13.5,
             textColor="#323232",
             alignment=TA_LEFT,
             fontName="Rubik-Regular",
@@ -824,7 +824,7 @@ class BadgePDFCreator:
         )
 
         space_needed = 0
-        title_height = 20 + 15  # font size + spacer
+        title_height = 10.5 + 6  # font size + spacer
         space_needed += title_height
 
         has_evidence_url = any(item.evidence_url for item in (evidence_items or []))
@@ -840,7 +840,7 @@ class BadgePDFCreator:
             # render, which reportlab wraps correctly regardless) — kept in
             # proportion to narrative_style's fontSize/leading above so a
             # smaller font doesn't reserve more vertical space than it needs.
-            line_char_count = 115
+            line_char_count = 135
             line_height = narrative_style.leading
             num_lines = math.ceil(len(narrative_text) / line_char_count)
             narrative_height = num_lines * line_height + 15
@@ -854,10 +854,13 @@ class BadgePDFCreator:
             Story.append(Spacer(1, 70))
             self.used_space = 70  # reset used space with header
         else:
+            # Breathing room between the badge description and this section
+            # (it used to start right under the description).
+            Story.append(Spacer(1, 18))
             self.used_space += 30  # top spacer
 
         Story.append(Paragraph(_("Narrative"), title_style))
-        Story.append(Spacer(1, 15))
+        Story.append(Spacer(1, 6))
         self.used_space += 35  # title + spacer
 
         if has_evidence_url:
@@ -926,10 +929,12 @@ class BadgePDFCreator:
 
         cert_style = ParagraphStyle(
             name="Certificate",
-            fontSize=40,
-            leading=48,
+            # 2026-11-25: lighter and smaller across the page (was 40pt Bold;
+            # WAISF found the certificate too heavy and crowded).
+            fontSize=30,
+            leading=36,
             textColor="#323232",
-            fontName="Rubik-Bold",
+            fontName="Rubik-Regular",
             alignment=TA_CENTER,
         )
 
