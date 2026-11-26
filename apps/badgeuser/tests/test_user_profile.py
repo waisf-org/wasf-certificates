@@ -46,3 +46,29 @@ class UserProfileTests(BadgrTestCase):
         self.assertEqual(get2_response.content, b'{"key":"bar","value":"[1,2,3,4]"}')
         self.assertEqual(delete_response.status_code, 204)
         self.assertEqual(get3_response.status_code, 404)
+
+
+class SelfSignupClosedTests(BadgrTestCase):
+    """WAISF 2026-11-26: public self sign-up is closed (OPEN_FOR_SIGNUP)."""
+
+    payload = {
+        "first_name": "New",
+        "last_name": "Person",
+        "email": "new.person@example.com",
+        "password": "a-Long-and-Unique-pass-123",
+        "agreed_terms_version": 1,
+    }
+
+    def test_v1_signup_refused_when_closed(self):
+        from django.test import override_settings
+        from badgeuser.models import BadgeUser
+
+        with override_settings(OPEN_FOR_SIGNUP=False):
+            response = self.client.post("/v1/user/profile", self.payload, format="json")
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(BadgeUser.objects.filter(email="new.person@example.com").exists())
+
+    def test_closed_by_default(self):
+        from django.conf import settings
+
+        self.assertFalse(settings.OPEN_FOR_SIGNUP)

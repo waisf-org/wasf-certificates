@@ -103,6 +103,11 @@ class BadgeUserDetail(BaseEntityDetailView):
         """
         Signup for a new account
         """
+        if not getattr(settings, "OPEN_FOR_SIGNUP", True):
+            return Response(
+                {"error": "Self sign-up is closed. Please contact the WAISF Secretariat."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         if request.version == "v1":
             # email = request.data.get("email")
             # TODO: investigate how we can use this to improve the spam filter

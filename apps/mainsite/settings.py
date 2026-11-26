@@ -177,6 +177,12 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 ACCOUNT_ADAPTER = "mainsite.account_adapter.BadgrAccountAdapter"
+# WAISF (2026-11-26): public self sign-up is closed. People see their
+# certificates on waisf.org through an email one-time code; accounts here are
+# only for staff. Applies to the API sign-up (v1/v2 BadgeUserDetail.post) and
+# to allauth / social sign-up (BadgrAccountAdapter.is_open_for_signup).
+# Set BADGR_OPEN_FOR_SIGNUP=true to reopen.
+OPEN_FOR_SIGNUP = os.environ.get("BADGR_OPEN_FOR_SIGNUP", "false").strip().lower() == "true"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
