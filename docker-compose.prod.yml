@@ -37,6 +37,15 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      # Outgoing mail (password resets, confirmations). Values come from the
+      # untracked .env next to this file; empty EMAIL_HOST = no sending.
+      - "EMAIL_HOST=${EMAIL_HOST:-}"
+      - "EMAIL_PORT=${EMAIL_PORT:-465}"
+      - "EMAIL_HOST_USER=${EMAIL_HOST_USER:-}"
+      - "EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD:-}"
+      - "EMAIL_USE_TLS=${EMAIL_USE_TLS:-False}"
+      - "EMAIL_USE_SSL=${EMAIL_USE_SSL:-True}"
+      - "DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL:-WAISF <noreply@waisf.org>}"
       - TZ=Europe/Berlin
 
   # this container runs memcached
@@ -116,6 +125,15 @@ services:
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
       - "MYSQL_HOST=db"
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      # Outgoing mail (password resets, confirmations). Values come from the
+      # untracked .env next to this file; empty EMAIL_HOST = no sending.
+      - "EMAIL_HOST=${EMAIL_HOST:-}"
+      - "EMAIL_PORT=${EMAIL_PORT:-465}"
+      - "EMAIL_HOST_USER=${EMAIL_HOST_USER:-}"
+      - "EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD:-}"
+      - "EMAIL_USE_TLS=${EMAIL_USE_TLS:-False}"
+      - "EMAIL_USE_SSL=${EMAIL_USE_SSL:-True}"
+      - "DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL:-WAISF <noreply@waisf.org>}"
       - TZ=Europe/Berlin
     networks:
       - badgr
